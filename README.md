@@ -1,1 +1,2 @@
-hello world domo maker d here
+Project 2 for IGME 430 @ RIT
+By Vincent Li
