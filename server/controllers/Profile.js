@@ -12,12 +12,34 @@ const makeProfile = async (req, res) => {
     age: req.body.age,
     user: req.session.account._id,
   };
+  console.log('making profile', profileData);
   try {
     const newProfile = new Profile(profileData);
     await newProfile.save();
-    return res.status(201).json({ name: newProfile.name, age: newProfile.age });
+    return res.json({ redirect: '/profile' });
   } catch (err) {
     return res.status(400).json({ error: 'An error occurred', code: err.code });
+  }
+};
+
+const editProfile = async (req, res) => {
+  if (!req.body.name) {
+    return res.status(400).json({ error: 'Name is required!' });
+  }
+  const profileData = {
+    name: req.body.name,
+    description: req.body.desc,
+    // user: req.session.account._id,
+  };
+  console.log('updating profile', profileData);
+  try {
+    Profile.update(
+      { user: req.session.account._id },
+      { name: profileData.name, description: profileData.description },
+    );
+    return res.status(201).json({ name: profileData.name, description: profileData.description });
+  } catch (e) {
+    return res.status(400).json({ error: 'An error has occurred' });
   }
 };
 
@@ -33,4 +55,5 @@ module.exports = {
   profilePage,
   makeProfile,
   getProfile,
+  editProfile,
 };

@@ -1,4 +1,5 @@
 const models = require('../models');
+const { makeProfile } = require('./Profile');
 
 const { Account } = models;
 
@@ -24,7 +25,7 @@ const login = (req, res) => {
 
     req.session.account = Account.toAPI(account);
 
-    return res.json({ redirect: '/maker' });
+    return res.json({ redirect: '/profile' });
   });
 };
 
@@ -32,7 +33,8 @@ const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
   const pass2 = `${req.body.pass2}`;
-  if (!username || !pass || !pass2) {
+  const age = `${req.body.age}`;
+  if (!username || !pass || !pass2 || !age) {
     return res.status(400).json({ error: 'All fields are required' });
   }
   if (pass !== pass2) {
@@ -44,7 +46,9 @@ const signup = async (req, res) => {
     const newAccount = new Account({ username, password: hash });
     await newAccount.save();
     req.session.account = Account.toAPI(newAccount);
-    return res.json({ redirect: '/maker' });
+    console.log(req.body);
+    return await makeProfile(req, res);
+    // return
   } catch (e) {
     if (e.code === 11000) {
       return res.status(400).json({ error: 'Username already exists' });

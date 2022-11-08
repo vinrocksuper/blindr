@@ -22,10 +22,6 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  prompts: {
-    type: String[9], // TODO make this dynamic
-    required: false,
-  },
   user: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -48,7 +44,7 @@ ProfileSchema.statics.findByOwner = (ownerId, callback) => {
     owner: mongoose.Types.ObjectId(ownerId),
   };
 
-  return ProfileModel.find(search).select('name age description prompts').lean().exec(callback);
+  return ProfileModel.find(search).select('name age description').lean().exec(callback);
 };
 
 ProfileModel = mongoose.model('Profile', ProfileSchema);
