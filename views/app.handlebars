@@ -1,29 +1,39 @@
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <title>DomoMaker</title>
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <link rel="shortcut icon" href="/assets/img/favicon.png"/>
-  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+    <meta charset="utf-8" />
+    <title>Blindrs</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <link rel="shortcut icon" href="/assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="/assets/style.css" />
 </head>
+
 <body>
-  <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/></a>
-    <div class="navlink"><a href="/logout">Log out</a></div>
-  </nav>
+    <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo" /></a>
+        <div class="navlink"><a href="/logout">Log out</a></div>
+    </nav>
 
-  <section id="makeDomo">
 
-  </section>
-  <section id="domos">
-    
-  </section>
+    <section id="editProfile">
 
-  <div id="domoMessage" class='hidden'>
-    <img id="speech" src="/assets/img/speech.png" alt="speech box"/>
-    <h3><span id="errorMessage"></span></h3>
-    <img id="domo" src="assets/img/domo.png" alt="domo"/>
-  </div>
-  <script src="/assets/appBundle.js"></script>
+    </section>
+    <section id="profileInfo">
+
+    </section>
+    <script src="/assets/appBundle.js"></script>
+    <!-- Here, at the bottom of the body, we import our socket.io library
+  for the client to use. We do this at the bottom to ensure that the page
+  has otherwise been setup for us. 
+  
+  When we created our socket.io server in /server/io.js, it added routes
+  for /socket.io/socket.io.js (as well as a minified version) so that our
+  server hosts the client code as well. -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- We then load our own client code, which express hosts for us. Remember
+  that the /assets url tree is the /hosted folder. -->
+    <script src="/assets/client.js"></script>
 </body>
+
 </html>

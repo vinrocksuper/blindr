@@ -13,7 +13,7 @@ const handleDomo = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, { name, age, _csrf }, LoadDomosFromServer);
+    helper.sendPost(e.target.action, { name, age, _csrf }, loadProfileFromServer);
 
     return false;
 }
@@ -62,11 +62,31 @@ const DomoList = (props) => {
     )
 }
 
-const LoadDomosFromServer = async () => {
-    const response = await fetch('/getDomos');
+const EditProfile = (props) => {
+    return(        <form id="profileForm"
+    name="profileForm"
+    onSubmit={handleDomo}
+    action="/profile"
+    method="POST"
+    className="profileForm">
+
+    <label htmlFor='fname'>First Name: </label>
+    <input id="firstname" type='text' name="fname" placeholder='First Name' />
+    <label htmlFor='lname'>Last Name: </label>
+    <input id="lastname" type='text' name="lname" placeholder='Last Name' />
+
+    <label htmlFor="age">Password: </label>
+    <input id='domoAge' type="number" name='age' min="0" />
+    <input id='_csrf' type="hidden" name='_csrf' value={props.csrf} />
+    <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+</form>)
+}
+
+const loadProfileFromServer = async () => {
+    const response = await fetch('/getProfile');
     const data = await response.json();
 
-    console.log('domos', data.domos);
+    console.log('data: ', data);
     ReactDOM.render(<DomoList domos={data.domos} />, document.getElementById('domos'));
 }
 
@@ -76,7 +96,7 @@ const init = async () => {
     ReactDOM.render(<DomoForm csrf={data.csrfToken} />, document.getElementById('makeDomo'));
 
     ReactDOM.render(<DomoList domos={[]} />, document.getElementById('domos'));
-    LoadDomosFromServer();
+    loadProfileFromServer();
 }
 
 window.onload = init;
