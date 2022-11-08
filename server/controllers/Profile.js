@@ -10,9 +10,9 @@ const makeProfile = async (req, res) => {
   const profileData = {
     name: req.body.name,
     age: req.body.age,
+    description: req.body.description,
     user: req.session.account._id,
   };
-  console.log('making profile', profileData);
   try {
     const newProfile = new Profile(profileData);
     await newProfile.save();
@@ -29,9 +29,7 @@ const editProfile = async (req, res) => {
   const profileData = {
     name: req.body.name,
     description: req.body.desc,
-    // user: req.session.account._id,
   };
-  console.log('updating profile', profileData);
   try {
     Profile.update(
       { user: req.session.account._id },
@@ -44,6 +42,7 @@ const editProfile = async (req, res) => {
 };
 
 const profilePage = (req, res) => res.render('app');
+const editProfilePage = (req, res) => res.render('ftue');
 const getProfile = (req, res) => ProfileModel.findByOwner(req.session.account._id, (err, docs) => {
   if (err) {
     return res.status(400).json({ error: 'an error has occurred!', code: err.code });
@@ -56,4 +55,5 @@ module.exports = {
   makeProfile,
   getProfile,
   editProfile,
+  editProfilePage,
 };

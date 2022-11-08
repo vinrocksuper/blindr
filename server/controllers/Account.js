@@ -1,5 +1,4 @@
 const models = require('../models');
-const { makeProfile } = require('./Profile');
 
 const { Account } = models;
 
@@ -46,9 +45,7 @@ const signup = async (req, res) => {
     const newAccount = new Account({ username, password: hash });
     await newAccount.save();
     req.session.account = Account.toAPI(newAccount);
-    console.log(req.body);
-    return await makeProfile(req, res);
-    // return
+    return res.json({ redirect: '/editProfile' });
   } catch (e) {
     if (e.code === 11000) {
       return res.status(400).json({ error: 'Username already exists' });

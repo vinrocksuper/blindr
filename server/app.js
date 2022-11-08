@@ -11,7 +11,7 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const redis = require('redis');
 const csrf = require('csurf');
-
+const socketSetup = require('./io.js');
 const router = require('./router.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
@@ -70,8 +70,8 @@ app.use((err, req, res, next) => {
 });
 
 router(app);
-
-app.listen(port, (err) => {
+const server = socketSetup(app);
+server.listen(port, (err) => {
   if (err) { throw err; }
   console.log(`Listening on port ${port}`);
 });
