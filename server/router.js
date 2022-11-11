@@ -12,6 +12,8 @@ const router = (app) => {
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
+  app.get('/app', mid.requiresLogin, controllers.Account.homePage);
+
   app.get('/profile', mid.requiresLogin, controllers.Profile.profilePage);
   app.get('/editProfile', mid.requiresLogin, controllers.Profile.editProfilePage);
   app.post('/editProfile', mid.requiresLogin, controllers.Profile.editProfile);
