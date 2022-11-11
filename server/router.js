@@ -10,8 +10,6 @@ const router = (app) => {
 
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
 
-  // app.post('/editProfile')
-
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
   app.get('/profile', mid.requiresLogin, controllers.Profile.profilePage);
