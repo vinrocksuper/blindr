@@ -56,7 +56,7 @@ const loadProfileFromServer = async () => {
     console.log('data: ', data);
     if (data.profile[0]){
         ReactDOM.render(<EditProfile firstName={data.profile[0].name.split(" ")[0]} lastName={data.profile[0].name.split(" ")[1]} description={data.profile[0].description} />, document.getElementById('editProfile'));
-        ReactDOM.render(<ProfileInfo firstName={data.profile[0].name.split(" ")[0]} lastName={data.profile[0].name.split(" ")[1]} description={data.profile[0].description}/>, document.getElementById('profileInfo'));
+        ReactDOM.render(<ProfileInfo firstName={data.profile[0].name.split(" ")[0]} lastName={data.profile[0].name.split(" ")[1]} description={data.profile[0].description} age={data.profile[0].age}/>, document.getElementById('profileInfo'));
     }
        
     

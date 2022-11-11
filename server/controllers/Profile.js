@@ -7,10 +7,12 @@ const makeProfile = async (req, res) => {
   if (!req.body.name || !req.body.age) {
     return res.status(400).json({ error: 'both name and age are required' });
   }
+
+  console.log(req.body);
   const profileData = {
     name: req.body.name,
     age: req.body.age,
-    description: req.body.description,
+    description: req.body.desc,
     user: req.session.account._id,
   };
   try {
@@ -44,6 +46,8 @@ const editProfile = async (req, res) => {
 const profilePage = (req, res) => res.render('app');
 const editProfilePage = (req, res) => res.render('ftue');
 const getProfile = (req, res) => ProfileModel.findByOwner(req.session.account._id, (err, docs) => {
+  console.log(req.session.account._id);
+  console.log(docs,);
   if (err) {
     return res.status(400).json({ error: 'an error has occurred!', code: err.code });
   }

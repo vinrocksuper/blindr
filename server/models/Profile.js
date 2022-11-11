@@ -41,7 +41,7 @@ ProfileSchema.statics.toAPI = (doc) => ({
 
 ProfileSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
-    owner: mongoose.Types.ObjectId(ownerId),
+    user: mongoose.Types.ObjectId(ownerId),
   };
 
   return ProfileModel.find(search).select('name age description').lean().exec(callback);
