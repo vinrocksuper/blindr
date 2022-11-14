@@ -8,13 +8,14 @@ const handleProfileEdit = (e) => {
     const lname = e.target.querySelector('#lastname').value;
     const desc = e.target.querySelector('#description').value;
     const _csrf = e.target.querySelector('#_csrf').value;
+    const premium = e.target.querySelector('#premium').checked;
 
     if (!lname || !fname) {
         helper.handleError('Missing fields');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name: `${fname} ${lname}`, desc, _csrf }, loadProfileFromServer);
+    helper.sendPut(e.target.action, { name: `${fname} ${lname}`, desc, _csrf, premium: premium }, loadProfileFromServer);
 
     return false;
 }
@@ -24,7 +25,7 @@ const EditProfile = (props) => {
         name="profileForm"
         onSubmit={handleProfileEdit}
         action="/editProfile"
-        method="POST"
+        method="PUT"
         className="profileForm">
         <h3>Edit Profile Info</h3>
         <hr />
@@ -35,6 +36,8 @@ const EditProfile = (props) => {
         <label htmlFor='desc'>Description: </label>
         <textarea id="description" type='text' name="desc" defaultValue={'Lorem Ipsum'} value={props.description} />
         <input id='_csrf' type="hidden" name='_csrf' value={props.csrf} />
+        <input id='premium' type="checkbox" name='premium' value={true} />
+        <label htmlFor="premium">Premium Enabled: </label>
         <input type='submit' />
     </form>)
 }
@@ -43,8 +46,9 @@ const ProfileInfo = (props) => {
     return (
         <div>
             <h1>Profile Info</h1>
-            <div>Name: {props.firstName ?? 'Who are '} {props.lastName ?? 'you? '} {props.age ?? 'missing age?'}</div>
+            <div>{props.firstName ?? 'Who are '} {props.lastName ?? 'you? '} {props.age ?? 'missing age?'}</div>
             <div>{props.description ?? 'missing desc?'}</div>
+            <div>{props.premium ? 'Premium' : 'Not Premium'}</div>
         </div>
     )
 }
@@ -52,19 +56,18 @@ const ProfileInfo = (props) => {
 const loadProfileFromServer = async () => {
     const response = await fetch('/getProfile');
     const data = await response.json();
-
-    if (data.profile[0]){
+    if (data.profile[0]) {
         ReactDOM.render(<EditProfile firstName={data.profile[0].name.split(" ")[0]} lastName={data.profile[0].name.split(" ")[1]} description={data.profile[0].description} />, document.getElementById('editProfile'));
-        ReactDOM.render(<ProfileInfo firstName={data.profile[0].name.split(" ")[0]} lastName={data.profile[0].name.split(" ")[1]} description={data.profile[0].description} age={data.profile[0].age}/>, document.getElementById('profileInfo'));
+        ReactDOM.render(<ProfileInfo firstName={data.profile[0].name.split(" ")[0]} lastName={data.profile[0].name.split(" ")[1]} description={data.profile[0].description} age={data.profile[0].age} premium={data.profile[0].premium}/>, document.getElementById('profileInfo'));
     }
 }
 
 const init = async () => {
     const response = await fetch('/getToken');
     const data = await response.json();
-    ReactDOM.render(<ProfileInfo/>, document.getElementById('profileInfo'));
+    ReactDOM.render(<ProfileInfo />, document.getElementById('profileInfo'));
 
-    ReactDOM.render(<EditProfile csrf={data.csrfToken}/>, document.getElementById('editProfile'));
+    ReactDOM.render(<EditProfile csrf={data.csrfToken} />, document.getElementById('editProfile'));
     loadProfileFromServer();
 }
 

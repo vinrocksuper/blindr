@@ -30,13 +30,22 @@ const editProfile = async (req, res) => {
   const profileData = {
     name: req.body.name,
     description: req.body.desc,
+    premium: req.body.premium,
   };
   try {
-    Profile.update(
+    Profile.updateOne(
       { user: req.session.account._id },
-      { name: profileData.name, description: profileData.description },
+      {
+        name: profileData.name,
+        description: profileData.description,
+        premium: profileData.premium,
+      },
     );
-    return res.status(201).json({ name: profileData.name, description: profileData.description });
+    return res.status(200).json({
+      name: profileData.name,
+      description: profileData.description,
+      premium: profileData.premium,
+    });
   } catch (e) {
     return res.status(400).json({ error: 'An error has occurred' });
   }

@@ -27,6 +27,11 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
     ref: 'Account',
   },
+  premium: {
+    type: Boolean,
+    default: false,
+    setDefaultsOnInsert: false,
+  },
   createdDate: {
     type: Date,
     immutable: true,
@@ -37,6 +42,7 @@ const ProfileSchema = new mongoose.Schema({
 ProfileSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
+  premium: doc.premium,
 });
 
 ProfileSchema.statics.findByOwner = (ownerId, callback) => {
@@ -44,7 +50,7 @@ ProfileSchema.statics.findByOwner = (ownerId, callback) => {
     user: mongoose.Types.ObjectId(ownerId),
   };
 
-  return ProfileModel.find(search).select('name age description').lean().exec(callback);
+  return ProfileModel.find(search).select('name age description premium').lean().exec(callback);
 };
 
 ProfileModel = mongoose.model('Profile', ProfileSchema);

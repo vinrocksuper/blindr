@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* Takes in an error message. Sets the error message up in html, and
    displays it to the user. Will be hidden by other events that could
    end in an error.
@@ -19,7 +20,29 @@ const sendPost = async (url, data, handler) => {
   });
 
   const result = await response.json();
+  if (result.error) {
+    handleError(result.error);
+  }
 
+  if (result.redirect) {
+    window.location = result.redirect;
+  }
+
+  if (handler) {
+    handler(result);
+  }
+};
+
+const sendPut = async (url, data, handler) => {
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
   if (result.error) {
     handleError(result.error);
   }
@@ -34,11 +57,12 @@ const sendPost = async (url, data, handler) => {
 };
 
 const hideError = () => {
-  //TODO
+  // TODO
 };
 
 module.exports = {
   handleError,
   sendPost,
+  sendPut,
   hideError,
 };
