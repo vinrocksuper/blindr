@@ -54,7 +54,7 @@ const signup = async (req, res) => {
   }
 };
 
-const homePage = (req, res) => { res.render('app', { csrfToken: req.csrfToken() }) };
+const homePage = (req, res) => { res.render('app', { csrfToken: req.csrfToken() }); };
 
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 

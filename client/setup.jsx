@@ -29,9 +29,7 @@ const SetupForm = (props) => {
       className="profileForm">
       <h3>Edit Profile Info</h3>
       <hr />
-      {/* <label htmlFor='fname'>First Name: </label> */}
       <input id="firstname" type='text' name="fname" placeholder={'First Name'} />
-      {/* <label htmlFor='lname'>Last Name: </label> */}
       <input id="lastname" type='text' name="lname" placeholder={'Last Name'} />
       <input id="age" type='number' name="age" placeholder={'Age'} min={18}/>
       <label htmlFor='desc'>Description: </label>

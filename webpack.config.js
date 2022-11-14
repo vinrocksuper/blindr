@@ -5,7 +5,7 @@ module.exports = {
     profile: './client/maker.jsx',
     login: './client/login.jsx',
     ftue: './client/setup.jsx',
-    socket: './client/socket.jsx'
+    socket: './client/socket.jsx',
   },
   module: {
     rules: [

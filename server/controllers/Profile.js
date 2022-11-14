@@ -42,7 +42,7 @@ const editProfile = async (req, res) => {
   }
 };
 
-const profilePage = (req, res) => res.render('app');
+const profilePage = (req, res) => res.render('profile');
 const editProfilePage = (req, res) => res.render('ftue');
 const getProfile = (req, res) => ProfileModel.findByOwner(req.session.account._id, (err, docs) => {
   if (err) {
