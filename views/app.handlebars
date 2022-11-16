@@ -22,8 +22,22 @@
   <div>
     <h1>Welcome to Blindrs</h1>
   </div>
+
+  <form id="editForm">
+    <input id="editbox" type="text" />
+    <select id="channelSelect">
+      <option value="general">General</option>
+      <option value="meme">Meme</option>
+    </select>
+    <input type="submit" />
+  </form>
+
+  <div id="messages">
+
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
-  {{!-- <script src="/assets/socketBundle.js"></script> --}}
+  <script src="/assets/socketBundle.js"></script>
 </body>
 
 </html>
