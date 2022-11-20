@@ -1,44 +1,47 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <title>Blindrs</title>
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
-    integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="shortcut icon" href="/assets/img/favicon.png" />
-  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="utf-8" />
+    <title>Blindrs</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+        integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="/assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-  <nav><a href="/app"><img id="logo" src="/assets/img/blind.png" alt="logo" /></a>
-    <div class="navlink"><a href="/logout">Log out</a></div>
-    <a class="navlink" href="/profile">Profile</a>
-  </nav>
+    <nav><a href="/app"><img id="logo" src="/assets/img/blind.png" alt="logo" /></a>
+        <div class="navlink"><a href="/logout">Log out</a></div>
+        <a class="navlink" href="/profile">Profile</a>
+    </nav>
 
 
-  <div>
-    <h1>Welcome to Blindrs</h1>
-  </div>
 
-  <form id="editForm">
-    <input id="editbox" type="text" />
-    <select id="channelSelect">
-      <option value="general">General</option>
-      <option value="meme">Meme</option>
-    </select>
-    <input type="submit" />
-  </form>
 
-  <div id="messages">
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half" id="createMessage">
 
-  </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/assets/socketBundle.js"></script>
+    </section>
+
+
+    <div id="messages">
+
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/assets/socketBundle.js"></script>
 </body>
 
 </html>
