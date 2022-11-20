@@ -7,25 +7,27 @@ let io;
     to a specific channel in our socket.io system. Clients can choose to
     subscribe to specific channels, as seen in the /hosted/client.js file.
 */
-const handleChatMessage = (msg) => {
-  io.emit(msg.channel, msg.message);
+const handleChatMessage = (msg, socket) => {
+  const message = `${socket.request.session.account.username}: ${msg.message}`;
+  io.emit(msg.channel, message);
 };
 
 /* This setup function takes in our express app, adds Socket.IO to it,
     and sets up event handlers for our io events.
 */
-const socketSetup = (app) => {
+const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
+const socketSetup = (app, sessionMiddleware) => {
   const server = http.createServer(app);
   io = new Server(server);
-
+  io.use(wrap(sessionMiddleware));
   io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log(`${socket.request.session.account.username} connected`);
 
     socket.on('disconnect', () => {
-      console.log('a user disconnected');
+      console.log(`${socket.request.session.account.username} disconnected`);
     });
 
-    socket.on('chat message', handleChatMessage);
+    socket.on('chat message', (msg) => { handleChatMessage(msg, socket); });
   });
 
   return server;

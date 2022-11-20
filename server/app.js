@@ -44,7 +44,7 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(session({
+const sessionMW = session({
   key: 'sessionid',
   store: new RedisStore({
     client: redisClient,
@@ -55,7 +55,8 @@ app.use(session({
   cookie: {
     httpOnly: true,
   },
-}));
+});
+app.use(sessionMW);
 
 app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
 app.set('view engine', 'handlebars');
@@ -70,7 +71,7 @@ app.use((err, req, res, next) => {
 });
 
 router(app);
-const server = socketSetup(app);
+const server = socketSetup(app, sessionMW);
 server.listen(port, (err) => {
   if (err) { throw err; }
   console.log(`Listening on port ${port}`);
