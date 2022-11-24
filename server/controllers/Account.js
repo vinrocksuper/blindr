@@ -58,6 +58,16 @@ const homePage = (req, res) => { res.render('app', { csrfToken: req.csrfToken() 
 
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
+const getUsername = (req, res) => {
+  Account.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      return res.status(400).json({ error: 'an error has occurred!', code: err.code });
+    }
+    console.log(docs);
+    return res.json({ docs });
+  });
+};
+
 module.exports = {
   loginPage,
   homePage,
@@ -65,4 +75,5 @@ module.exports = {
   login,
   signup,
   getToken,
+  getUsername,
 };

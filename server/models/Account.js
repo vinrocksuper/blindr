@@ -45,6 +45,14 @@ AccountSchema.statics.toAPI = (doc) => ({
   _id: doc._id,
 });
 
+AccountSchema.statics.findByOwner = (ownerId, callback) => {
+  const search = {
+    _id: mongoose.Types.ObjectId(ownerId),
+  };
+
+  return AccountModel.find(search).select('username').lean().exec(callback);
+};
+
 // Helper function to hash a password
 AccountSchema.statics.generateHash = (password) => bcrypt.hash(password, saltRounds);
 

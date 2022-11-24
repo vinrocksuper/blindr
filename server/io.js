@@ -8,7 +8,7 @@ let io;
     subscribe to specific channels, as seen in the /hosted/client.js file.
 */
 const handleChatMessage = (msg, socket) => {
-  const message = `${socket.request.session.account.username}: ${msg.message}`;
+  const message = `${socket.request.session.account.username}:${msg.message}`;
   io.emit(msg.channel, message);
 };
 
