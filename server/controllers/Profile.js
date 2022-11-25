@@ -40,13 +40,21 @@ const editProfile = async (req, res) => {
         description: profileData.description,
         premium: profileData.premium,
       },
+      (err, docs) => {
+        if (err) console.log(err);
+        else {
+          console.log('updated docs: ', docs);
+        }
+      },
     );
+    console.log(profileData, 'success');
     return res.status(200).json({
       name: profileData.name,
       description: profileData.description,
       premium: profileData.premium,
     });
   } catch (e) {
+    console.log(e);
     return res.status(400).json({ error: 'An error has occurred' });
   }
 };

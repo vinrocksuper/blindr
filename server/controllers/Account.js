@@ -63,7 +63,6 @@ const getUsername = (req, res) => {
     if (err) {
       return res.status(400).json({ error: 'an error has occurred!', code: err.code });
     }
-    console.log(docs);
     return res.json({ docs });
   });
 };
