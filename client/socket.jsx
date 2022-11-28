@@ -125,7 +125,7 @@ const CreateMessage = (props) => {
 const init = async () => {
     const response = await fetch('/getProfile');
     const data = await response.json();
-    if(data.profile[0].premium){
+    if(data.profile[0]?.premium){
         shouldDisplayAds = false;
     }
     ReactDOM.render(<CreateMessage />, document.getElementById('createMessage'));
