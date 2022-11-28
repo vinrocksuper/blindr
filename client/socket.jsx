@@ -7,7 +7,7 @@ let shouldDisplayAds = true;
 const handleEditbox = () => {
     const editForm = document.getElementById('editForm');
     const editBox = document.getElementById('editbox');
-    const channelSelect = document.getElementById('channelSelect');
+    const channelSelect = document.getElementById('channelBox');
 
     editForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -37,9 +37,9 @@ const handlePost = async (e) => {
         shouldDisplayAds = status.profile[0].premium;
     }
 
-
+    console.log('sending post')
     helper.sendPost(e.target.action, { content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken })
-
+    console.log('success')
     editBox.value = '';
 }
 
@@ -58,6 +58,7 @@ const displayAd = () => {
 }
 
 const displayMessage = (msg) => {
+    console.log(msg);
     const payload = msg.split(":");
     const messageDiv = document.createElement('div');
     messageDiv.innerHTML = `
@@ -82,42 +83,23 @@ const displayMessage = (msg) => {
     }
 };
 
-const handleChannelSelect = () => {
-    const channelSelect = document.getElementById('channelSelect');
-    const messages = document.getElementById('messages');
-
-    channelSelect.addEventListener('change', () => {
-        switch (channelSelect.value) {
-            case 'meme':
-                socket.off('general'); // unsubscribes from the event
-                socket.on('meme', displayMessage);
-
-                break;
-            default:
-                socket.off('meme'); // unsubscribes from the event
-                socket.on('general', displayMessage);
-                break;
-        }
-    });
-};
+const handleChannelChange = (value) => {
+    socket.removeAllListeners();
+    socket.on(value.toString(), displayMessage);
+}
 
 const CreateMessage = (props) => {
     return (
         <form id="editForm"
             onSubmit={handlePost}
             action="/createMessage"
-            method="POST"
-        >
+            method="POST">
             <textarea className="textarea is-medium" id="editbox" type="text" />
             <br />
             <div className="is-flex is-flex-direction-row-reverse">
                 <input className='button is-medium ml-2' type="submit" />
-                <select className="select is-medium ml-3" id="channelSelect">
-                    <option value="general">General</option>
-                    <option value="meme">Meme</option>
-                </select>
+                <input id='channelBox'type="text" className="input" onChange={e => handleChannelChange(e.target.value)} placeholder='chat-room (leave empty for global)'/>
             </div>
-
         </form>
     );
 }
@@ -130,8 +112,7 @@ const init = async () => {
     }
     ReactDOM.render(<CreateMessage />, document.getElementById('createMessage'));
     handleEditbox();
-    socket.on('general', displayMessage);
-    handleChannelSelect();
+    socket.on('global', displayMessage);
 };
 
 window.onload = init;
