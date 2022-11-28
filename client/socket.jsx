@@ -15,7 +15,7 @@ const handleEditbox = () => {
         if (editBox.value) {
             const data = {
                 message: editBox.value,
-                channel: channelSelect.value,
+                channel: channelSelect.value || 'global',
             };
             socket.emit('chat message', data);
 
@@ -37,9 +37,7 @@ const handlePost = async (e) => {
         shouldDisplayAds = status.profile[0].premium;
     }
 
-    console.log('sending post')
     helper.sendPost(e.target.action, { content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken })
-    console.log('success')
     editBox.value = '';
 }
 
@@ -58,7 +56,6 @@ const displayAd = () => {
 }
 
 const displayMessage = (msg) => {
-    console.log(msg);
     const payload = msg.split(":");
     const messageDiv = document.createElement('div');
     messageDiv.innerHTML = `
@@ -85,7 +82,13 @@ const displayMessage = (msg) => {
 
 const handleChannelChange = (value) => {
     socket.removeAllListeners();
-    socket.on(value.toString(), displayMessage);
+    console.log(value);
+    if(!value){
+        socket.on('global', displayMessage);
+    }else{
+        socket.on(value.toString(), displayMessage);
+    }
+
 }
 
 const CreateMessage = (props) => {
