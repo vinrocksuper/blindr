@@ -14,9 +14,11 @@ const csrf = require('csurf');
 const socketSetup = require('./io.js');
 const router = require('./router.js');
 
-const port = process.env.PORT || process.env.NODE_PORT || 3000;
+const config = require('./config.js');
 
-const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/Blindr';
+const { port } = config.connections.http;
+
+const dbURI = config.connections.mongo;
 mongoose.connect(dbURI, (err) => {
   if (err) {
     console.log('could not connect to database');
@@ -24,7 +26,7 @@ mongoose.connect(dbURI, (err) => {
   }
 });
 
-const redisURL = process.env.REDISCLOUD_URL || 'redis://default:A5LheZatm2gpPZ7qd3g8dJC2z5iMHPz0@redis-12575.c1.us-east1-2.gce.cloud.redislabs.com:12575';
+const redisURL = config.connections.redis;
 
 const redisClient = redis.createClient({
   legacyMode: true,
@@ -49,7 +51,7 @@ const sessionMW = session({
   store: new RedisStore({
     client: redisClient,
   }),
-  secret: 'Blindr igme430',
+  secret: config.secret,
   resave: true,
   saveUninitialized: true,
   cookie: {
