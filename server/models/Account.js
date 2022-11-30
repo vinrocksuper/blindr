@@ -61,10 +61,8 @@ AccountSchema.statics.checkPass = async (ownerId, pass1) => {
   if (!doc) {
     return { error: 'something went really wrong' };
   }
-  const match = await bcrypt.compare(pass1, doc.password);
-  console.log(match);
-  console.log(pass1);
   console.log(doc.password);
+  const match = await bcrypt.compare(pass1, doc.password);
   return match;
 };
 /* Helper function for authenticating a password against one already in the

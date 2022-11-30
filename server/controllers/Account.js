@@ -68,7 +68,7 @@ const getUsername = (req, res) => {
   });
 };
 
-const passwordHelper = async (req, res, oldPass) => {
+const passwordHelper = async (req, oldPass) => {
   const isMatching = await Account.checkPass(req.session.account._id, oldPass);
 
   return isMatching;
@@ -78,7 +78,7 @@ const editPassword = async (req, res) => {
   const oldPass = `${req.body.oldPass}`;
   const newPass = `${req.body.newPass}`;
   const newPass2 = `${req.body.newPass2}`;
-  const toCompare = await passwordHelper(req, res, oldPass);
+  const toCompare = await passwordHelper(req, oldPass);
 
   if (!toCompare) {
     return res.status(401).json({ error: 'Incorrect Password' });
@@ -93,7 +93,7 @@ const editPassword = async (req, res) => {
     Account.updateOne({ user: req.session.account._id }, { password: hash }, (err, docs) => {
       if (err) console.log(err);
       else {
-        console.log('updated password: ', docs);
+        console.log('updated password: ', docs, hash);
       }
     });
     return res.status(200).json({ message: 'success' });
