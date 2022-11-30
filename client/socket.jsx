@@ -18,7 +18,6 @@ const handleEditbox = () => {
                 channel: channelSelect.value || 'global',
             };
             socket.emit('chat message', data);
-
         }
     });
 };
@@ -33,30 +32,30 @@ const handlePost = async (e) => {
     const data = await response.json();
     const checkAdStatus = await fetch('/getProfile');
     const status = await checkAdStatus.json();
-    if(status.profile){
+    if (status.profile) {
         shouldDisplayAds = status.profile[0].premium;
     }
 
-    helper.sendPost(e.target.action, { content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken })
+    helper.sendPost(e.target.action, { content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken });
     editBox.value = '';
-}
+};
 
 const displayAd = () => {
     const adDiv = document.createElement('div');
     adDiv.innerHTML = `    <div class='box tile is-parent is-vertical notification is-warning'>
     <div class='is-child'>
-    <div class='has-background-light p-3 box'>
-        THIS IS AN AD
+        <div class='has-background-light p-3 box'>
+            THIS IS AN AD
         </div>
     </div>
-</div>
-<br />
+    </div>
+    <br />
 `;
     document.getElementById('messages').prepend(adDiv);
-}
+};
 
 const displayMessage = (msg) => {
-    const payload = msg.split(":");
+    const payload = msg.split(':');
     const messageDiv = document.createElement('div');
     messageDiv.innerHTML = `
     <div class='box tile is-parent is-vertical notification is-info'>
@@ -69,9 +68,9 @@ const displayMessage = (msg) => {
         </div>
     </div>
     <br />
-    `
+    `;
     document.getElementById('messages').prepend(messageDiv);
-    if(shouldDisplayAds){
+    if (shouldDisplayAds) {
         adCountdown--;
         if (!adCountdown) {
             displayAd();
@@ -83,34 +82,31 @@ const displayMessage = (msg) => {
 const handleChannelChange = (value) => {
     socket.removeAllListeners();
     console.log(value);
-    if(!value){
+    if (!value) {
         socket.on('global', displayMessage);
-    }else{
+    } else {
         socket.on(value.toString(), displayMessage);
     }
+};
 
-}
-
-const CreateMessage = (props) => {
-    return (
-        <form id="editForm"
-            onSubmit={handlePost}
-            action="/createMessage"
-            method="POST">
-            <textarea className="textarea is-medium" id="editbox" type="text" />
-            <br />
-            <div className="is-flex is-flex-direction-row-reverse">
-                <input className='button is-medium ml-2' type="submit" />
-                <input id='channelBox'type="text" className="input" onChange={e => handleChannelChange(e.target.value)} placeholder='chat-room (leave empty for global)'/>
-            </div>
-        </form>
-    );
-}
+const CreateMessage = (props) => (
+    <form id="editForm"
+        onSubmit={handlePost}
+        action="/createMessage"
+        method="POST">
+        <textarea className="textarea is-medium" id="editbox" type="text" />
+        <br />
+        <div className="is-flex is-flex-direction-row-reverse">
+            <input className='button is-medium ml-2' type="submit" />
+            <input id='channelBox' type="text" className="input" onChange={(e) => handleChannelChange(e.target.value)} placeholder='chat-room (leave empty for global)' />
+        </div>
+    </form>
+);
 
 const init = async () => {
     const response = await fetch('/getProfile');
     const data = await response.json();
-    if(data.profile[0]?.premium){
+    if (data.profile[0]?.premium) {
         shouldDisplayAds = false;
     }
     ReactDOM.render(<CreateMessage />, document.getElementById('createMessage'));

@@ -18,6 +18,8 @@ const router = (app) => {
   app.get('/profile', mid.requiresLogin, controllers.Profile.profilePage);
   app.get('/editProfile', mid.requiresLogin, controllers.Profile.editProfilePage);
   app.put('/editProfile', mid.requiresLogin, controllers.Profile.editProfile);
+  app.put('/editPassword', mid.requiresLogin, controllers.Account.editPassword);
+
   app.post('/makeProfile', mid.requiresLogin, controllers.Profile.makeProfile);
 
   app.post('/createMessage', mid.requiresLogin, controllers.Messages.createMessage);

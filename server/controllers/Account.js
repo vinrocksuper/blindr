@@ -63,8 +63,43 @@ const getUsername = (req, res) => {
     if (err) {
       return res.status(400).json({ error: 'an error has occurred!', code: err.code });
     }
+
     return res.json({ docs });
   });
+};
+
+const passwordHelper = async (req, res, oldPass) => {
+  const isMatching = await Account.checkPass(req.session.account._id, oldPass);
+
+  return isMatching;
+};
+
+const editPassword = async (req, res) => {
+  const oldPass = `${req.body.oldPass}`;
+  const newPass = `${req.body.newPass}`;
+  const newPass2 = `${req.body.newPass2}`;
+  const toCompare = await passwordHelper(req, res, oldPass);
+
+  if (!toCompare) {
+    return res.status(401).json({ error: 'Incorrect Password' });
+  }
+
+  if (newPass !== newPass2) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  try {
+    const hash = await Account.generateHash(newPass);
+    Account.updateOne({ user: req.session.account._id }, { password: hash }, (err, docs) => {
+      if (err) console.log(err);
+      else {
+        console.log('updated password: ', docs);
+      }
+    });
+    return res.status(200).json({ message: 'success' });
+  } catch (e) {
+    return res.status(400).json({ error: 'Something went wrong' });
+  }
 };
 
 module.exports = {
@@ -75,4 +110,5 @@ module.exports = {
   signup,
   getToken,
   getUsername,
+  editPassword,
 };

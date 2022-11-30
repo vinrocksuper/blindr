@@ -13,28 +13,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-divider@0.2.0/dist/css/bulma-divider.min.css"
+        integrity="sha256-rFnzhAMFs9eETsAfAAvhzFLWW8SCqUpBjCboDB6ITtg=" crossorigin="anonymous">
 </head>
 
 <body>
-    <nav><a href="/app">
-            <nav><a href="/app"><img id="logo" src="/assets/img/blind.png" alt="logo" /></a>
+    <nav class="navbar ">
+        <a href="/app" class="navbar-brand">
+            <img id="logo" src="/assets/img/blind.png" alt="logo" />
+            <div class="navbar-item">BLINDRS</div>
         </a>
-        <div class="navlink"><a href="/logout">Log out</a></div>
-        <a class="navlink" href="/profile">Profile</a>
+        <a class="navbar-item" href="/profile"><i class="fa-regular fa-user"></i></a>
+        <a class='navbar-item' href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
     </nav>
 
 
+    <div class="columns">
+        <section id="editProfile" class="columns column is-half">
+        </section>
+        <div class='is-divider-vertical'></div>
+        <section id="editPassword" class="column">
+        </section>
+    </div>
 
-    <section id="editProfile">
-
-    </section>
     <section id="profileInfo">
 
     </section>
     <script src="/assets/profileBundle.js"></script>
 </body>
 
-<a href="https://www.flaticon.com/free-icons/blind" title="blind icons">Blind icons created by Those Icons -
-    Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/blind" title="blind icons">
+    Blind icons created by Those Icons - Flaticon
+</a>
 
 </html>

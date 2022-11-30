@@ -56,6 +56,17 @@ AccountSchema.statics.findByOwner = (ownerId, callback) => {
 // Helper function to hash a password
 AccountSchema.statics.generateHash = (password) => bcrypt.hash(password, saltRounds);
 
+AccountSchema.statics.checkPass = async (ownerId, pass1) => {
+  const doc = await AccountModel.findOne({ _id: mongoose.Types.ObjectId(ownerId) });
+  if (!doc) {
+    return { error: 'something went really wrong' };
+  }
+  const match = await bcrypt.compare(pass1, doc.password);
+  console.log(match);
+  console.log(pass1);
+  console.log(doc.password);
+  return match;
+};
 /* Helper function for authenticating a password against one already in the
    database. Essentially when a user logs in, we need to verify that the password
    they entered matches the one in the database. Since the database stores hashed
