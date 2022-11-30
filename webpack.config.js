@@ -6,6 +6,7 @@ module.exports = {
     login: './client/login.jsx',
     ftue: './client/setup.jsx',
     socket: './client/socket.jsx',
+    nav: './client/navbar.jsx',
   },
   module: {
     rules: [

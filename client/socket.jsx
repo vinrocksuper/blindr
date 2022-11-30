@@ -112,6 +112,9 @@ const init = async () => {
     ReactDOM.render(<CreateMessage />, document.getElementById('createMessage'));
     handleEditbox();
     socket.on('global', displayMessage);
+    console.log('socket bundle');
 };
 
-window.onload = init;
+window.addEventListener('load', () => {
+    init();
+});

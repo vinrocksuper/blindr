@@ -52,6 +52,8 @@ const sendPut = async (url, data, handler) => {
   }
 
   if (handler) {
+    console.log('calling handler');
+    console.log(result);
     handler(result);
   }
 };

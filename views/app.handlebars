@@ -16,19 +16,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-divider@0.2.0/dist/css/bulma-divider.min.css">
 </head>
 
-<body>
-    <nav class="navbar ">
-        <a href="/app" class="navbar-brand">
-            <img id="logo" src="/assets/img/blind.png" alt="logo" />
-            <div class="navbar-item">BLINDRS</div>
-        </a>
-        <a class="navbar-item" href="/profile"><i class="fa-regular fa-user"></i></a>
-        <a class='navbar-item' href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
-    </nav>
 
-
-
-
+<body class="mx-2">
+    <div id="appNav">
+    </div>
     <section class="section">
         <div class="container">
             <div class="columns is-centered">
@@ -51,6 +42,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/assets/socketBundle.js"></script>
+    <script src="/assets/navBundle.js"></script>
 </body>
 
 </html>

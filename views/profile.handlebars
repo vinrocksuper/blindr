@@ -17,33 +17,35 @@
         integrity="sha256-rFnzhAMFs9eETsAfAAvhzFLWW8SCqUpBjCboDB6ITtg=" crossorigin="anonymous">
 </head>
 
-<body>
-    <nav class="navbar ">
-        <a href="/app" class="navbar-brand">
-            <img id="logo" src="/assets/img/blind.png" alt="logo" />
-            <div class="navbar-item">BLINDRS</div>
-        </a>
-        <a class="navbar-item" href="/profile"><i class="fa-regular fa-user"></i></a>
-        <a class='navbar-item' href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+<body class="mx-2">
+    <nav class="navbar " id="appNav">
     </nav>
 
 
-    <div class="columns">
+    <div class="columns ml-4">
         <section id="editProfile" class="columns column is-half">
         </section>
         <div class='is-divider-vertical'></div>
         <section id="editPassword" class="column">
         </section>
     </div>
+    <div class="columns mr-4">
+        <section id="profileInfo" class="section column is-half">
+        </section>
+    </div>
 
-    <section id="profileInfo">
 
-    </section>
     <script src="/assets/profileBundle.js"></script>
+    <script src="/assets/navBundle.js"></script>
 </body>
 
-<a href="https://www.flaticon.com/free-icons/blind" title="blind icons">
-    Blind icons created by Those Icons - Flaticon
-</a>
+<div class='box'>
+    <h1 class="title">CREDITS</h1>
+    <a href="https://www.flaticon.com/free-icons/blind" title="blind icons">
+        Blind icons created by Those Icons - Flaticon
+    </a>
+</div>
+
+
 
 </html>
