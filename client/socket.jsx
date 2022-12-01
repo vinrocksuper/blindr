@@ -33,7 +33,8 @@ const handlePost = async (e) => {
     const checkAdStatus = await fetch('/getProfile');
     const status = await checkAdStatus.json();
     if (status.profile) {
-        shouldDisplayAds = status.profile[0].premium;
+        shouldDisplayAds = !status.profile[0].premium;
+        console.log(status, shouldDisplayAds);
     }
 
     helper.sendPost(e.target.action, { content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken });

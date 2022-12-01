@@ -1,115 +1,32 @@
-html,
-body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
 #logo {
     height: 40px;
     width: 40;
     margin-top:20px;
-
-}
-
-
-.navlink a,
-.navlink a:link,
-.navlink a:visited,
-.navlink a:hover,
-.navlink a:active {
-    color: white;
-    text-decoration: none;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #55acee;
-    transition: background-color 0.4s ease;
-}
-
-.navlink a:hover {
-    transition: background-color 0.8s ease;
-    background-color: #66bdff;
 }
 
 .mainForm {
-    height: 300px;
+    height: 375px;
     width: 350px;
     margin: 0 auto;
-    padding-top: 350px;
     font-size: 1.2em;
-}
-
-.mainForm h3 {
     text-align: center;
 }
 
-.mainForm label {
-    display: inline-block;
-    width: 100px;
-    margin-right: 10px;
-    text-align: right;
-    font-size: 1.2em;
+.navbar-brand:hover,
+.navbar-item:hover {
+    color: lightblue,
 }
 
-.formSubmit {
-    transition: background-color 0.4s ease;
-    display: block;
-    text-align: center;
+.signupForm {
+    height: 475px;
+    width: 350px;
     margin: 0 auto;
-    margin-top: 14px;
     font-size: 1.2em;
-    width: 100px;
-    background-color: #55acee;
-    border-radius: 2px;
-    border-color: #66acee;
-    padding: 3px 0px;
-    color: white;
-    text-decoration: none;
-}
-
-.formSubmit:link,
-.formSubmit:visited,
-.formSubmit:hover,
-.formSubmit:active {
-    color: white;
-}
-
-.formSubmit:hover {
-    transition: background-color 0.4s ease;
-    background-color: #338acc;
-}
-
-#user,
-#pass,
-#pass2 {
     text-align: center;
-    font-size: 1.1em;
-    width: 180px;
-    border-radius: 6px;
 }
 
-#user:focus,
-#pass:focus,
-#pass2:focus {
-    outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
-}
-
-.hidden {
-    display: none;
-}
-
-#speech {
-    height: 120px;
+.mainForm label, .signupForm label {
+    display: inline-block;
     width: 250px;
-    z-index: 300;
-}
-
-#errorMessage {
     font-size: 1.2em;
-    font-weight: bold;
-    color: red;
-    font-style: italic;
 }

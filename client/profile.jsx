@@ -10,10 +10,10 @@ const handleProfileEdit = (e) => {
     const _csrf = e.target.querySelector('#_csrf').value;
     const premium = e.target.querySelector('#premium').checked;
 
-    if (!lname || !fname) {
-        helper.handleError('Missing fields');
-        return false;
-    }
+    // if (!lname || !fname) {
+    //     helper.handleError('Missing fields');
+    //     return false;
+    // }
 
     helper.sendPut(e.target.action, { name: `${fname} ${lname}`, desc, _csrf, premium: premium }, loadProfileFromServer);
 
@@ -34,12 +34,12 @@ const handlePasswordEdit = (e) => {
         helper.handleError('Missing fields');
         return false;
     }
-    helper.sendPut(e.target.action, { oldPass, newPass, newPass2, _csrf }, handlePasswordSuccess);
+    helper.sendPut(e.target.action, { oldPass, newPass, newPass2, _csrf }, handlePasswordMessages);
 
     return false;
 }
 
-const handlePasswordSuccess = (e) => {
+const handlePasswordMessages = (e) => {
     if (e.message) {
         ReactDOM.render(<EditPassword toRender={e.message} />, document.getElementById('editPassword'));
         document.querySelector('#resultMessage').classList.add('has-text-success');

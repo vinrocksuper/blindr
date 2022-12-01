@@ -1,4 +1,4 @@
-const LoggedInNavbar = (props) => {
+const LoggedInNavbar = () => {
     return (
         <nav className="navbar">
             <a href="/app" className="navbar-brand logo">
@@ -13,7 +13,6 @@ const LoggedInNavbar = (props) => {
 
 const init = () => {
     ReactDOM.render(<LoggedInNavbar />, document.getElementById('appNav'));
-    console.log('navbar bundle');
 }
 
 // Needs to do it this way otherwise init will be overwritten

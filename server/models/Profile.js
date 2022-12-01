@@ -1,16 +1,19 @@
 const mongoose = require('mongoose');
-const _ = require('underscore');
 
 let ProfileModel = {};
-
-const setName = (name) => _.escape(name).trim();
 
 const ProfileSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
-    set: setName,
+    set: function omitEmptyString(v) { // copied from https://github.com/Automattic/mongoose/issues/10924
+      console.log(v);
+      if (this instanceof mongoose.Query /* only run on queries */ && v === '') {
+        return undefined;
+      }
+      return v;
+    },
   },
   age: {
     type: Number,

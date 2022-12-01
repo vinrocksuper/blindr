@@ -1,5 +1,5 @@
 const helper = require('./helper.js');
-
+let data;
 const handleLogin = (e) => {
     e.preventDefault();
     helper.hideError();
@@ -9,11 +9,11 @@ const handleLogin = (e) => {
     const _csrf = e.target.querySelector('#_csrf').value;
 
     if (!username || !pass) {
-        helper.handleError('Username or password is empty!');
+        handleLoginError({ error: 'Missing Field(s)', username, pass })
         return false;
     }
 
-    helper.sendPost(e.target.action, { username, pass, _csrf });
+    helper.sendPost(e.target.action, { username, pass, _csrf }, handleLoginError);
     return false;
 };
 
@@ -27,18 +27,68 @@ const handleSignup = (e) => {
     const _csrf = e.target.querySelector('#_csrf').value;
 
     if (!username || !pass || !pass2) {
-        helper.handleError('All fields required!');
+        handleSignupError({ error: 'Missing Field(s)', username, pass, pass2 });
         return false;
     }
 
     if (pass !== pass2) {
-        helper.handleError('Passwords do not match!');
+        handleSignupError({ error: 'Passwords do not match!' });
         return false;
     }
 
-    helper.sendPost(e.target.action, { username, pass, pass2, _csrf });
+    helper.sendPost(e.target.action, { username, pass, pass2, _csrf }, handleSignupError);
     return false;
 };
+
+const handleLoginError = (e) => {
+    ReactDOM.render(<LoginWindow csrf={data.csrfToken} toRender={e.error} />, document.getElementById('content'));
+    document.getElementById('errorMessage').classList.add('has-text-danger')
+
+    document.getElementById('user').classList.remove('is-danger');
+    document.getElementById('pass').classList.remove('is-danger');
+
+    if (e.error === "Wrong username or password") {
+        document.getElementById('user').classList.add('is-danger');
+        document.getElementById('pass').classList.add('is-danger');
+
+    } else if (e.error === 'Missing Field(s)') {
+        if (!e.username) {
+            document.getElementById('user').classList.add('is-danger');
+        }
+        if (!e.pass) {
+            document.getElementById('pass').classList.add('is-danger');
+        }
+    }
+}
+
+const handleSignupError = (e) => {
+    if (e.error) {
+        ReactDOM.render(<SignUpWindow csrf={data.csrfToken} toRender={e.error} />, document.getElementById('content'));
+        document.getElementById('errorMessage').classList.add('has-text-danger');
+
+        document.getElementById('user').classList.remove('is-danger');
+        document.getElementById('pass').classList.remove('is-danger');
+        document.getElementById('pass2').classList.remove('is-danger');
+
+        if (e.error === "Username already exists") {
+            document.getElementById('user').classList.add('is-danger');
+        }
+        else if (e.error === 'Missing Field(s)') {
+            if (!e.username) {
+                document.getElementById('user').classList.add('is-danger');
+            }
+            if (!e.pass) {
+                document.getElementById('pass').classList.add('is-danger');
+            }
+            if (!e.pass2) {
+                document.getElementById('pass2').classList.add('is-danger');
+            }
+        } else if (e.error === 'Passwords do not match!') {
+            document.getElementById('pass').classList.add('is-danger');
+            document.getElementById('pass2').classList.add('is-danger');
+        }
+    }
+}
 
 const LoginWindow = (props) => {
     return (
@@ -47,17 +97,36 @@ const LoginWindow = (props) => {
             onSubmit={handleLogin}
             action="/login"
             method="POST"
-            className="mainForm">
-
-            <label htmlFor='username'>Username: </label>
-            <input id="user" type='text' name="username" placeholder='username' />
-            <label htmlFor="pass">Password: </label>
-            <input id='pass' type="password" name='pass' placeholder='password' />
+            className="mainForm box">
+            <h3 className='title'>Blindrs</h3>
+            <input className='input' id="user" type='text' name="username" placeholder='Username' />
+            <br />
+            <br />
+            <input className='input' id='pass' type="password" name='pass' placeholder='Password' />
             <input id='_csrf' type="hidden" name='_csrf' value={props.csrf} />
-            <input className="formSubmit" type="submit" value="Sign in" />
+            <input className="formSubmit button mt-4" type="submit" value="Sign in" />
+
+            <div id='errorMessage'>
+                {
+                    props.toRender
+                }
+            </div>
+            <div> Don't have an account?
+                <div onClick={displaySignup} id='signupButton' className='has-text-link is-underlined'>
+                    <a>Signup here</a>
+                </div>
+            </div>
         </form>
     );
 };
+
+const displayLogin = () => {
+    ReactDOM.render(<LoginWindow csrf={data.csrfToken} />, document.getElementById('content'));
+}
+
+const displaySignup = () => {
+    ReactDOM.render(<SignUpWindow csrf={data.csrfToken} />, document.getElementById('content'));
+}
 
 const SignUpWindow = (props) => {
     return (
@@ -66,40 +135,35 @@ const SignUpWindow = (props) => {
             onSubmit={handleSignup}
             action="/signup"
             method="POST"
-            className="mainForm">
-
-            <label htmlFor='username'>Username: </label>
-            <input id="user" type='text' name="username" placeholder='username' />
-            <label htmlFor="pass">Password: </label>
-            <input id='pass' type="password" name='pass' placeholder='password' />
-            <label htmlFor="pass2">Password2: </label>
-            <input id='pass2' type="password" name='pass2' placeholder='retype password' />
+            className="signupForm box">
+            <h3 className='title'>Blindrs</h3>
+            <input className='input' id="user" type='text' name="username" placeholder='Username' />
+            <br />
+            <br />
+            <input className='input' id='pass' type="password" name='pass' placeholder='Password' />
+            <br />
+            <br />
+            <input className='input' id='pass2' type="password" name='pass2' placeholder='Retype Password' />
             <input id='_csrf' type="hidden" name='_csrf' value={props.csrf} />
-            <input className="formSubmit" type="submit" value="Sign in" />
+            <input className="formSubmit button mt-4" type="submit" value="Register" />
+            <div id='errorMessage'>
+                {
+                    props.toRender
+                }
+            </div>
+            <div> Already have an account?
+                <div onClick={displayLogin} id='loginButton' className='has-text-link is-underlined'>
+                    <a>Login here</a>
+                </div>
+            </div>
         </form>
     );
 };
 
+
 const init = async () => {
     const response = await fetch('/getToken');
-    const data = await response.json();
-    console.log(data,);
-    const loginButton = document.getElementById('loginButton');
-    const signupButton = document.getElementById('signupButton');
-
-    loginButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        ReactDOM.render(<LoginWindow csrf={data.csrfToken} />, document.getElementById('content'));
-        return false;
-    });
-
-    signupButton.addEventListener('click', (e) => {
-
-        e.preventDefault();
-        ReactDOM.render(<SignUpWindow csrf={data.csrfToken} />, document.getElementById('content'));
-        return false;
-    });
-
+    data = await response.json();
     ReactDOM.render(<LoginWindow csrf={data.csrfToken} />, document.getElementById('content'));
 }
 

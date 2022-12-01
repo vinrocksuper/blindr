@@ -29,6 +29,7 @@ const sendPost = async (url, data, handler) => {
   }
 
   if (handler) {
+    console.log('calling handler', result);
     handler(result);
   }
 };

@@ -24,22 +24,20 @@ const makeProfile = async (req, res) => {
 };
 
 const editProfile = async (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).json({ error: 'Name is required!' });
+  const profileData = {};
+  if (req.body.name !== ' ' && req.body.name) {
+    profileData.name = req.body.name;
   }
-  const profileData = {
-    name: req.body.name,
-    description: req.body.desc,
-    premium: req.body.premium,
-  };
+  if (req.body.desc) {
+    profileData.description = req.body.desc;
+  }
+  if (req.body.premium) {
+    profileData.premium = req.body.premium;
+  }
   try {
     Profile.updateOne(
       { user: req.session.account._id },
-      {
-        name: profileData.name,
-        description: profileData.description,
-        premium: profileData.premium,
-      },
+      profileData,
       (err, docs) => {
         if (err) console.log(err);
         else {
@@ -54,7 +52,6 @@ const editProfile = async (req, res) => {
       premium: profileData.premium,
     });
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ error: 'An error has occurred' });
   }
 };
