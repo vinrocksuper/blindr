@@ -20,6 +20,7 @@ const handleEditbox = async () => {
             socket.emit('chat message', data);
         }
     });
+    loadMessages();
 };
 
 const handlePost = async (e) => {
@@ -83,22 +84,26 @@ const displayMessage = (msg) => {
 const handleChannelChange = async (value) => {
     socket.removeAllListeners();
     document.getElementById('messages').innerHTML = ``;
-    const channelSelect = document.getElementById('channelBox');
     if (!value) {
         socket.on('global', displayMessage);
     } else {
         socket.on(value.toString(), displayMessage);
     }
+
+    loadMessages();
+};
+
+const loadMessages = async () => {
+    const channelSelect = document.getElementById('channelBox');
     const messagesData = await fetch('/getMessage?' + new URLSearchParams({
         channel: channelSelect.value || 'global'
     }));
     const messages = await messagesData.json();
 
-    console.log(messages.messagesArr);
     for (let i = 0; i < messages.messagesArr.length; i++) {
         displayMessage(`${messages.messagesArr[i].username}:${messages.messagesArr[i].content}`);
     }
-};
+}
 
 const CreateMessage = (props) => (
     <form id="editForm"
