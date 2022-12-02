@@ -22,7 +22,7 @@ const fetchMessage = async (req, res) => {
     const messagesArr = await MessageModel.findByChannel(channel);
     return res.status(200).json({ messagesArr });
   } catch (e) {
-    console.log(e, 'something went wrong fetching message history');
+    return res.status(400).json(e, 'something went wrong fetching message history');
   }
 };
 
