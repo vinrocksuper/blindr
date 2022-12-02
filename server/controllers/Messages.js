@@ -1,12 +1,14 @@
 const models = require('../models');
+const MessageModel = require('../models/Messages');
 
 const { Messages } = models;
 
 const createMessage = async (req, res) => {
   const content = `${req.body.content}`;
-  const username = `${req.body.username};`;
+  const username = `${req.body.username}`;
+  const channel = `${req.body.channel}`;
   try {
-    const newMessage = new Messages({ content, username });
+    const newMessage = new Messages({ content, username, channel });
     await newMessage.save();
     return res.status(201);
   } catch (e) {
@@ -14,6 +16,17 @@ const createMessage = async (req, res) => {
   }
 };
 
+const fetchMessage = async (req, res) => {
+  const { channel } = req.query;
+  try {
+    const messagesArr = await MessageModel.findByChannel(channel);
+    return res.status(200).json({ messagesArr });
+  } catch (e) {
+    console.log(e, 'something went wrong fetching message history');
+  }
+};
+
 module.exports = {
   createMessage,
+  fetchMessage,
 };

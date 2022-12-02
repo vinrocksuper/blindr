@@ -17,6 +17,10 @@ const MessageSchema = new mongoose.Schema({
     immutable: true,
     default: Date.now,
   },
+  channel: {
+    type: String,
+    required: true,
+  },
 });
 
 MessageSchema.statics.toAPI = (doc) => ({
@@ -30,8 +34,10 @@ MessageSchema.statics.findByOwner = (ownerId, callback) => {
     username: mongoose.Types.ObjectId(ownerId),
   };
 
-  return MessageModel.find(search).select('content username createdDate').lean().exec(callback);
+  return MessageModel.find(search).select('content username createdDate channel').lean().exec(callback);
 };
+
+MessageSchema.statics.findByChannel = (query) => MessageModel.find({ channel: query }).select('content username').lean();
 
 MessageModel = mongoose.model('Message', MessageSchema);
 

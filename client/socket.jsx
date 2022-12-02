@@ -4,7 +4,7 @@ const helper = require('./helper.js');
 let adCountdown = 5;
 let shouldDisplayAds = true;
 
-const handleEditbox = () => {
+const handleEditbox = async () => {
     const editForm = document.getElementById('editForm');
     const editBox = document.getElementById('editbox');
     const channelSelect = document.getElementById('channelBox');
@@ -26,6 +26,7 @@ const handlePost = async (e) => {
     e.preventDefault();
     helper.hideError();
     const editBox = document.getElementById('editbox');
+    const channelSelect = document.getElementById('channelBox');
     const user = await fetch('/getUsername');
     const userdata = await user.json();
     const response = await fetch('/getToken');
@@ -34,10 +35,9 @@ const handlePost = async (e) => {
     const status = await checkAdStatus.json();
     if (status.profile) {
         shouldDisplayAds = !status.profile[0].premium;
-        console.log(status, shouldDisplayAds);
     }
 
-    helper.sendPost(e.target.action, { content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken });
+    helper.sendPost(e.target.action, { channel: channelSelect.value || 'global', content: editBox.value, username: userdata.docs[0].username, _csrf: data.csrfToken });
     editBox.value = '';
 };
 
@@ -80,13 +80,23 @@ const displayMessage = (msg) => {
     }
 };
 
-const handleChannelChange = (value) => {
+const handleChannelChange = async (value) => {
     socket.removeAllListeners();
-    console.log(value);
+    document.getElementById('messages').innerHTML = ``;
+    const channelSelect = document.getElementById('channelBox');
     if (!value) {
         socket.on('global', displayMessage);
     } else {
         socket.on(value.toString(), displayMessage);
+    }
+    const messagesData = await fetch('/getMessage?' + new URLSearchParams({
+        channel: channelSelect.value || 'global'
+    }));
+    const messages = await messagesData.json();
+
+    console.log(messages.messagesArr);
+    for (let i = 0; i < messages.messagesArr.length; i++) {
+        displayMessage(`${messages.messagesArr[i].username}:${messages.messagesArr[i].content}`);
     }
 };
 
