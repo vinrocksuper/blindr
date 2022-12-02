@@ -23,8 +23,10 @@ const router = (app) => {
   app.post('/makeProfile', mid.requiresLogin, controllers.Profile.makeProfile);
 
   app.post('/createMessage', mid.requiresLogin, controllers.Messages.createMessage);
+  app.get('/getMessage', mid.requiresLogin, controllers.Messages.fetchMessage);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
+  app.get('*', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
 module.exports = router;
