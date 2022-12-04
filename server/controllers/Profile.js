@@ -45,7 +45,6 @@ const editProfile = async (req, res) => {
         }
       },
     );
-    console.log(profileData, 'success');
     return res.status(200).json({
       name: profileData.name,
       description: profileData.description,
